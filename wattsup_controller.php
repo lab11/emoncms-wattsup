@@ -56,6 +56,9 @@ function wattsup_controller()
             $watts = get('w') / 10;
             $data['watts'] = $watts;
 
+            $volts = get('v');
+            if (is_numeric($volts)) $data['volts'] = $volts / 10;
+
             // Iterate all new data items to insert
             $tmp = array();
             foreach ($data as $name => $value) {
@@ -81,11 +84,10 @@ function wattsup_controller()
                 }
             }
 
-            // Actuall insert all of the data to the process
+            // Actually insert all of the data to the process
             foreach ($tmp as $i) {
                 $process->input($time, $i['value'], $i['processList'], $i['opt']);
             }
-
         }
 
         if ($valid) {
@@ -95,45 +97,6 @@ function wattsup_controller()
         }
     }
 
-
-
-
-
-    
-    // include "Modules/app/AppConfig_model.php";
-    // $appconfig = new AppConfig($mysqli);
-
-    // if ($route->format == 'html')
-    // {
-    //     if ($route->action == "" && $session['write']) {
-    //         $result = view("Modules/app/client.php",array());
-    //     }
-    // }
-    
-    // if ($route->format == 'json')
-    // {
-    //     if ($route->action == "setconfig" && $session['write']) 
-    //         $result = $appconfig->set($session['userid'],get('data'));
-            
-    //     if ($route->action == "getconfig" && $session['read']) 
-    //         $result = $appconfig->get($session['userid']);
-        
-    //     if ($route->action == "dataremote")
-    //     {
-    //         $id = (int) get("id");
-    //         $start = (float) get("start");
-    //         $end = (float) get("end");
-    //         $interval = (int) get("interval");
-            
-    //         $result = json_decode(file_get_contents("http://emoncms.org/feed/data.json?id=$id&start=$start&end=$end&interval=$interval&skipmissing=0&limitinterval=0"));
-    //     }
-        
-    //     if ($route->action == "valueremote")
-    //     {
-    //         $id = (int) get("id");
-    //         $result = (float) json_decode(file_get_contents("http://emoncms.org/feed/value.json?id=$id"));
-    //     }
-    // }
 
     return array('content'=>$result);
 }
