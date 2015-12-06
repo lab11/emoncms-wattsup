@@ -52,7 +52,7 @@ function wattsup_controller()
             $data = array();
 
             $watts = get('w') / 10;
-            data['watts'] = $watts;
+            $data['watts'] = $watts;
 
             // Iterate all new data items to insert
             $tmp = array();
