@@ -24,8 +24,8 @@ function wattsup_controller()
     $result = 'ok';
 
 
-    if ($route->format == 'form') {
-        $result = 'form';
+    if ($route->format == 'text') {
+        $result = 'text!';
     }
 
 
