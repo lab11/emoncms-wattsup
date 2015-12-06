@@ -53,11 +53,36 @@ function wattsup_controller()
             // Array to store the relevant fields in
             $data = array();
 
-            $watts = get('w') / 10;
-            $data['watts'] = $watts;
+            $watts    = get('w');
+            $volts    = get('v');
+            $amps     = get('a');
+            $watth    = get('wh');
+            $maxwatts = get('wmx');
+            $maxvolts = get('vmx');
+            $maxamps  = get('amx');
+            $minwatts = get('wmi');
+            $minvolts = get('vmi');
+            $minamps  = get('ami');
+            $pf       = get('pf');
+            $pcy      = get('pcy');
+            $freq     = get('frq');
+            $voltamps = get('va');
 
-            $volts = get('v');
-            if (is_numeric($volts)) $data['volts'] = $volts / 10;
+            # Only include fields we actually got
+            if (is_numeric($watts))    $data['watts']        = $watts / 10;
+            if (is_numeric($volts))    $data['volts']        = $volts / 10;
+            if (is_numeric($amps))     $data['amps']         = $amps / 1000;
+            if (is_numeric($watth))    $data['watt_hours']   = $watth / 1000;
+            if (is_numeric($maxwatts)) $data['max_watts']    = $maxwatts / 10;
+            if (is_numeric($maxvolts)) $data['max_volts']    = $maxvolts / 10;
+            if (is_numeric($maxamps))  $data['max_amps']     = $maxamps / 1000;
+            if (is_numeric($minwatts)) $data['min_watts']    = $minwatts / 10;
+            if (is_numeric($minvolts)) $data['min_volts']    = $minvolts / 10;
+            if (is_numeric($minamps))  $data['min_amps']     = $minamps / 1000;
+            if (is_numeric($pf))       $data['power_factor'] = $pf;
+            if (is_numeric($pcy))      $data['power_cycle']  = $pcy;
+            if (is_numeric($freq))     $data['freq']         = $freq / 10;
+            if (is_numeric($voltamps)) $data['volt_amps']    = $voltamps / 10;
 
             // Iterate all new data items to insert
             $tmp = array();
