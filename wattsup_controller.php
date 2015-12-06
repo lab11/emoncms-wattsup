@@ -24,6 +24,11 @@ function wattsup_controller()
     $result = 'ok';
 
 
+    if ($route->format == 'form') {
+        $result = 'form';
+    }
+
+
 
     
     // include "Modules/app/AppConfig_model.php";
