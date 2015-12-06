@@ -19,6 +19,8 @@ function wattsup_controller()
     require_once "Modules/input/input_model.php";
     $input = new Input($mysqli, $redis, $feed);
 
+    require_once "Modules/process/process_model.php";
+    $process = new Process($mysqli, $input, $feed, $user->get_timezone($session['userid']));
 
 
     $result = 'ok';
