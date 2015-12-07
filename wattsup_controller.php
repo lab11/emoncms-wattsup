@@ -11,7 +11,7 @@ function wattsup_controller()
     // We need to include an API key with our POST data from the Watts Up?,
     // but the stupid thing limits how long our POST location string can be.
     // SO, we put the API key in the user agent string, cause why not.
-    $apikey = $_SERVER["HTTP_AUTHORIZATION"];
+    $apikey = $_SERVER["HTTP_USER_AGENT"];
 
     $session = $user->apikey_session($apikey);
     if (empty($session)) {
@@ -63,19 +63,19 @@ function wattsup_controller()
             $data = array();
 
             $watts    = post('w');
-            $volts    = get('v');
-            $amps     = get('a');
-            $watth    = get('wh');
-            $maxwatts = get('wmx');
-            $maxvolts = get('vmx');
-            $maxamps  = get('amx');
-            $minwatts = get('wmi');
-            $minvolts = get('vmi');
-            $minamps  = get('ami');
-            $pf       = get('pf');
-            $pcy      = get('pcy');
-            $freq     = get('frq');
-            $voltamps = get('va');
+            $volts    = post('v');
+            $amps     = post('a');
+            $watth    = post('wh');
+            $maxwatts = post('wmx');
+            $maxvolts = post('vmx');
+            $maxamps  = post('amx');
+            $minwatts = post('wmi');
+            $minvolts = post('vmi');
+            $minamps  = post('ami');
+            $pf       = post('pf');
+            $pcy      = post('pcy');
+            $freq     = post('frq');
+            $voltamps = post('va');
 
             # Only include fields we actually got
             if (is_numeric($watts))    $data['watts']        = $watts / 10;
