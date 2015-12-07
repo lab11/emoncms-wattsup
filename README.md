@@ -25,12 +25,12 @@ to the correct location. This means setting four values in the Watts Up?.
 [This guide](https://www.wattsupmeters.com/secure/downloads/CommunicationsProtocol090824.pdf)
 describes how to, but there are libraries that exist to make it easier.
 
-- **POST Host**:  <server> (example: emoncms.org)
+- **POST Host**:  \<server\> (example: emoncms.org)
 - **POST Port**:  80
 - **POST File**:  /wattsup/post.text
-- **User Agent**: <API key>
+- **User Agent**: \<API key\>
 
-You can set this with python and [this library](https://github.com/lab11/wattsup).
+You can set this with python and [this library](https://github.com/lab11/watts-up).
 Clone the library and then
 
     ./wattsup.py -p /dev/ttyUSB<index> -n <server> 80 /wattsup/post.text -u <API key>
