@@ -1,7 +1,7 @@
 Watts Up? .net Plugin for EmonCMS
 =================================
 
-This plugin receives Watts Up> HTTP posts and converts them to
+This plugin receives Watts Up? HTTP posts and converts them to
 emoncms format.
 
 
