@@ -22,14 +22,7 @@ function wattsup_controller()
     require_once "Modules/process/process_model.php";
     $process = new Process($mysqli, $input, $feed, $user->get_timezone($session['userid']));
 
-
-    $result = 'ok';
-
-
-    if ($route->format == 'text') {
-        $result = 'text!';
-    }
-
+    // Process /wattsup/post.text messages from Watts Up? .net
     if ($route->action == 'post' && $route->format == 'text') {
         // This looks like a correctly configured Watts Up? .net POST
 
