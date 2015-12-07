@@ -7,12 +7,28 @@ function wattsup_controller()
 {
     global $mysqli, $redis, $user, $session, $route, $feed_settings;
 
+    // First up, a little hack.
+    // We need to include an API key with our POST data from the Watts Up?,
+    // but the stupid thing limits how long our POST location string can be.
+    // SO, we put the API key in the user agent string, cause why not.
+    $apikey = $_SERVER["HTTP_AUTHORIZATION"];
+
+    $session = $user->apikey_session($apikey);
+    if (empty($session)) {
+          header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized");
+          header('WWW-Authenticate: Bearer realm="API KEY", error="invalid_apikey", error_description="Invalid API key"');
+          print "Invalid API key";
+          $log = new EmonLogger(__FILE__);
+          $log->error("Invalid API key '" . $apikey. "'");
+          exit();
+    }
+
     // There are no actions in the input module that can be performed with less than write privileges
     if (!$session['write']) return array('content'=>false);
 
     $result = false;
 
-    // Need to get correct files so that we can make inputs 
+    // Need to get correct files so that we can make inputs
     require_once "Modules/feed/feed_model.php";
     $feed = new Feed($mysqli, $redis, $feed_settings);
 
@@ -32,7 +48,7 @@ function wattsup_controller()
         $dbinputs = $input->get_inputs($userid);
 
         // id is set to the Watts Up? device ID
-        $nodeid = preg_replace('/[^\p{N}\p{L}_\s-.]/u', '', get('id'));
+        $nodeid = preg_replace('/[^\p{N}\p{L}_\s-.]/u', '', post('id'));
 
         // Make sure we can do this. Copied from input_controller.php
         $validate_access = $input->validate_access($dbinputs, $nodeid);
@@ -46,7 +62,7 @@ function wattsup_controller()
             // Array to store the relevant fields in
             $data = array();
 
-            $watts    = get('w');
+            $watts    = post('w');
             $volts    = get('v');
             $amps     = get('a');
             $watth    = get('wh');
@@ -82,7 +98,7 @@ function wattsup_controller()
             foreach ($data as $name => $value) {
                 // Check if this is an existing field in this node or not
                 if (!isset($dbinputs[$nodeid][$name])) {
-                    // New field. 
+                    // New field.
                     $inputid = $input->create_input($userid, $nodeid, $name);
                     $dbinputs[$nodeid][$name] = true;
                     $dbinputs[$nodeid][$name] = array('id'=>$inputid, 'processList'=>'');
